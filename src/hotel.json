@@ -1,0 +1,10 @@
+{
+  "first": {
+    "name": "first hotel",
+    "country": "ukraine"
+  },
+  "second": {
+    "name": "second hotel",
+    "country": "russia"
+  }
+}
