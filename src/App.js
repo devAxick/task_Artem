@@ -63,7 +63,6 @@ class App extends React.Component {
     }
 
     render() {
-        console.log(hotelList);
         return (
             <React.Fragment>
                 <input onChange={this.showDropDown} type="text" ref={input => this.text = input}/>
