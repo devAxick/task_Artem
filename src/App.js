@@ -7,14 +7,15 @@ import hotelList from './hotel'
 
 
 const initialState = {
-    hotelList: [hotelList],
-    dropDown: true
+    hotelList: hotelList,
+    dropDown: !true,
+    filterList: ''
 };
 
 function reducer(state = initialState, action) {
     switch (action.type) {
-        case 'SOME_ACTION':
-            return state;
+        case 'FILTER_LIST':
+            return {...state, filterList: action.amount};
         case 'TOGGLE_DROPDOWN':
             return {...state, dropDown: action.amount};
         default:
@@ -24,9 +25,9 @@ function reducer(state = initialState, action) {
 
 const store = createStore(reducer, initialState);
 
-const Increment = (amount) => {
+const filterList = (amount) => {
     return {
-        type: 'SOME_ACTION',
+        type: 'FILTER_LIST',
         amount: `${amount}`
     }
 };
@@ -43,6 +44,7 @@ class App extends React.Component {
         super(props);
 
         this.showDropDown = this.showDropDown.bind(this);
+        this.filterList = this.filterList.bind(this);
     }
 
     componentDidMount() {
@@ -52,7 +54,12 @@ class App extends React.Component {
     }
 
     showDropDown() {
-        store.dispatch(ToggleDropDown(Boolean(this.text.value)))
+        store.dispatch(ToggleDropDown(Boolean(this.text.value)));
+        this.filterList();
+    }
+
+    filterList(){
+        store.dispatch(filterList(this.text.value.toLowerCase()))
     }
 
     render() {
@@ -79,13 +86,17 @@ class DropDown extends React.Component {
     }
 
     render() {
-
-        return(
-            <div>{
-
-            }
-            </div>
-        )
+        if(this.props.dropDown){
+            return (
+                <div>{this.props.hlList.map((item, index) =>
+                    <div key={item.id}>
+                        <span>{item.location.cachedData.country} -</span>
+                        <span>{item.name}</span>
+                    </div>
+                )}
+                </div>
+            )
+        }else return null
     }
 }
 
@@ -93,7 +104,7 @@ class DropDown extends React.Component {
 const mapStateToProps = (state) =>{
     return{
         dropDown: state.dropDown,
-        hlList: state.hotelList
+        hlList: state.hotelList.filter(hotelList => {return hotelList.name.toLowerCase().includes(state.filterList) || hotelList.location.cachedData.country.toLowerCase().includes(state.filterList)})
     }
 };
 
