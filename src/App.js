@@ -6,7 +6,6 @@
  */
 
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { createStore } from 'redux'
 import { connect, Provider } from 'react-redux'
